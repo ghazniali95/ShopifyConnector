@@ -1,6 +1,6 @@
 <?php
 
-namespace packages\ShopifyConnector\src\Providers;
+namespace ShopifyConnector\App\Providers; 
 
 use Illuminate\Support\ServiceProvider;
 

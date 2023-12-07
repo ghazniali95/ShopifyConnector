@@ -1,6 +1,6 @@
 <?php
 
-namespace ShopifyConnector\Services;
+namespace ShopifyConnector\App\Services;
 
 use Exception;
 use GuzzleHttp\Client;

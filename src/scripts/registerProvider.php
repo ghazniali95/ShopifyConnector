@@ -1,11 +1,20 @@
 <?php
+
+use Illuminate\Support\Facades\URL;
 // registerProvider.php
 
 // The service provider you want to add
-$provider = "Ghazniali95\\ShopifyConnector\\Providers\\ShopifyConnectorProvider::class";
+$provider = "ShopifyConnector\\Providers\\ShopifyConnectorProvider::class";
 
-// Path to the Laravel application's config file
-$configPath = 'config/app.php';
+// Define the relative path to the Laravel application's config file
+$relativeConfigPath = '/config/app.php';
+
+// Get the absolute path of the script's directory (assumed to be the root of your Laravel project)
+$projectRootPath = URL::to('/');
+
+// Construct the absolute path to the config file
+$configPath = $projectRootPath . $relativeConfigPath;
+echo $configPath;
 
 if (file_exists($configPath)) {
     $config = file_get_contents($configPath);
@@ -17,7 +26,11 @@ if (file_exists($configPath)) {
 
         // Write the updated content back to the file
         file_put_contents($configPath, $updatedConfig);
+        echo "Provider added to config/app.php\n";
+    } else {
+        echo "Provider already registered in config/app.php\n";
     }
 } else {
-    echo "The config/app.php file does not exist.";
+    echo "The config/app.php file does not exist.\n";
+    exit(1); // Exit with an error code
 }
