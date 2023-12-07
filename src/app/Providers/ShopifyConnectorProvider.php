@@ -17,11 +17,14 @@ class ShopifyConnectorProvider extends ServiceProvider
     {
         $this->mergeConfigFrom(__DIR__ . '/../../config/shopifyconnector.php', 'shopifyconnector');
 
-        // Register the command if we are using the application via the CLI
         if ($this->app->runningInConsole()) {
             $this->commands([
                 InstallShopifyConnector::class,
             ]);
+
+            $this->publishes([
+                __DIR__ . '/../../config/shopifyconnector.php' => config_path('shopifyconnector.php'),
+            ], 'shopifyconnector');
         }
 
         $loader = \Illuminate\Foundation\AliasLoader::getInstance();
