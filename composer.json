@@ -19,24 +19,22 @@
         "laravel": {
             "providers": [
                 "ShopifyConnector\\App\\Providers\\ShopifyConnectorProvider"
-            ]
+            ],
+            "aliases": {
+                "Calculator": "ShopifyConnector\\App\\Facades\\ShopifyService"
+            }
         }
     },
     "require": {
-        "php": "^8.0", 
+        "php": "^8.0",
         "guzzlehttp/guzzle": "^7.4.4",
         "illuminate/support": "^8|^9|^10"
     },
     "require-dev": {
-        "php": "^8.0", 
+        "php": "^8.0",
         "guzzlehttp/guzzle": "^7.4.4",
         "illuminate/support": "^8|^9|^10",
         "phpunit/phpunit": "9.6.x-dev"
-    },
-    "scripts": {
-        "post-autoload-dump": [
-            "php src/scripts/registerProvider.php"
-        ]
     }
 
 }
