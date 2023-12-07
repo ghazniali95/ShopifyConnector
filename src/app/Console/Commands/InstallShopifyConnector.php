@@ -54,7 +54,7 @@ class InstallShopifyConnector extends Command
     {
         $params = [
             '--provider' => "ShopifyConnector\App\Providers\ShopifyConnectorProvider",
-            '--tag' => "config"
+            '--tag' => "shopifyconnector"
         ];
 
         if ($forcePublish === true) {
@@ -68,29 +68,26 @@ class InstallShopifyConnector extends Command
     {
         $appConfigPath = config_path('app.php');
         $appConfigContent = file_get_contents($appConfigPath);
-    
-        // Evaluating the content of app.php as a PHP array
-        $appConfig = eval('?>' . $appConfigContent);
-    
-        // Adding the service provider, if not already added
-        $providerClass = 'ShopifyConnector\\App\\Providers\\ShopifyConnectorProvider::class';
-        if (!in_array($providerClass, $appConfig['providers'])) {
-            $appConfig['providers'][] = $providerClass;
+
+        // Define the service provider and alias
+        $providerToAdd = "    ShopifyConnector\\App\\Providers\\ShopifyConnectorProvider::class,\n";
+        $aliasToAdd = "    'ShopifyService' => ShopifyConnector\\App\\Facades\\ShopifyService::class,\n";
+
+        // Insert the service provider
+        if (!str_contains($appConfigContent, $providerToAdd)) {
+            $providersEndPos = strpos($appConfigContent, '],', strpos($appConfigContent, "'providers' =>"));
+            $appConfigContent = substr_replace($appConfigContent, $providerToAdd, $providersEndPos, 0);
         }
-    
-        // Adding the facade alias, if not already added
-        $aliasClass = 'ShopifyConnector\\App\\Facades\\ShopifyService::class';
-        if (!isset($appConfig['aliases']['ShopifyService'])) {
-            $appConfig['aliases']['ShopifyService'] = $aliasClass;
+
+        // Insert the alias
+        if (!str_contains($appConfigContent, $aliasToAdd)) {
+            $aliasesEndPos = strpos($appConfigContent, '],', strpos($appConfigContent, "'aliases' =>"));
+            $appConfigContent = substr_replace($appConfigContent, $aliasToAdd, $aliasesEndPos, 0);
         }
-    
-        // Converting the array back to PHP code
-        $appConfigExport = var_export($appConfig, true);
-        $appConfigNewContent = "<?php\n\nreturn " . $appConfigExport . ";\n";
-    
-        // Writing the updated configuration back to app.php
-        file_put_contents($appConfigPath, $appConfigNewContent);
-    
+
+        // Write the updated content back to the file
+        file_put_contents($appConfigPath, $appConfigContent);
+
         $this->info('Service provider and alias added to config/app.php');
     }
 }

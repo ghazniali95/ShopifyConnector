@@ -16,19 +16,16 @@ class ShopifyConnectorProvider extends ServiceProvider
     public function boot()
     {
         $this->mergeConfigFrom(__DIR__ . '/../../config/shopifyconnector.php', 'shopifyconnector');
-
+    
         if ($this->app->runningInConsole()) {
             $this->commands([
                 InstallShopifyConnector::class,
             ]);
-
+    
             $this->publishes([
                 __DIR__ . '/../../config/shopifyconnector.php' => config_path('shopifyconnector.php'),
             ], 'shopifyconnector');
         }
-
-        $loader = \Illuminate\Foundation\AliasLoader::getInstance();
-        $loader->alias('ShopifyService', "ShopifyConnector\\App\\Facades\\ShopifyService");
     }
 
     public function register()

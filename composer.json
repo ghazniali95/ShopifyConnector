@@ -35,6 +35,16 @@
         "guzzlehttp/guzzle": "^7.4.4",
         "illuminate/support": "^8|^9|^10",
         "phpunit/phpunit": "9.6.x-dev"
+    },
+    "scripts": {
+        "post-install-cmd": [
+            "Illuminate\\Foundation\\ComposerScripts::postInstall",
+            "@php artisan ShopifyConnector:install --ansi"
+        ],
+        "post-update-cmd": [
+            "Illuminate\\Foundation\\ComposerScripts::postUpdate",
+            "@php artisan ShopifyConnector:install --ansi"
+        ]
     }
 
 }
