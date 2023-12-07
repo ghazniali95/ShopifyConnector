@@ -13,8 +13,7 @@ $relativeConfigPath = '/config/app.php';
 $projectRootPath = URL::to('/');
 
 // Construct the absolute path to the config file
-$configPath = $projectRootPath . $relativeConfigPath;
-echo $configPath;
+$configPath = $projectRootPath . $relativeConfigPath; 
 
 if (file_exists($configPath)) {
     $config = file_get_contents($configPath);
