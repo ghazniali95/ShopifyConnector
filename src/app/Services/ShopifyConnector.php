@@ -1,11 +1,8 @@
 <?php
 
 namespace ShopifyConnector\App\Services;
-
-use Exception;
-use GuzzleHttp\Client;
-use GuzzleHttp\Exception\GuzzleException;
-
+ 
+use GuzzleHttp\Client;  
 class ShopifyConnector
 {
     protected Client $client;
@@ -20,7 +17,7 @@ class ShopifyConnector
      * @param string $accessToken
      * @param string $shopUrl
      */
-    public function __construct(string $accessToken = null , string $shopUrl = null , string $version = null)
+    public function __construct( string $shopUrl = null , string $version = null , string $accessToken = null )
     {
         $this->accessToken = config('shopifyconnector.access_token' , $accessToken);
 
@@ -40,7 +37,7 @@ class ShopifyConnector
     /**
      * Throttles the API calls to comply with Shopify's rate limit.
      */
-    private function throttleApiCall(): void
+    protected function throttleApiCall(): void
     {
         $currentTime = microtime(true);
         $this->lastApiCallTimes[] = $currentTime;
@@ -57,24 +54,5 @@ class ShopifyConnector
         }
     }
 
-    /**
-     * Get products from Shopify.
-     *
-     * @return array
-     * @throws Exception
-     */
-    public function getProducts(): array
-    {
-        $this->throttleApiCall();
-        try {
-            $response = $this->client->request('GET', 'products.json');
-            $body = $response->getBody();
-            $data = json_decode($body, true);
 
-            return $data['products'];
-        } catch (GuzzleException $e) {
-            // Throw a new exception, you can customize the message as needed
-            throw new Exception("Error fetching products from Shopify: " . $e->getMessage(), $e->getCode());
-        }
-    }
 }
