@@ -17,6 +17,8 @@ use ShopifyConnector\App\Contracts\ProductServiceContract;
  */
 class ProductService extends Product
 {
+    use ShopifyConnector;
+
     /**
      * Create a new ProductService instance.
      *
@@ -27,8 +29,10 @@ class ProductService extends Product
      */
     public function __construct(array $data)
     {
-          
+        $this->orgainzation_id = $data['orgainzation_id'];
+        $this->channel_id = $data['channel_id'];
+
     }
 
- 
+
 }

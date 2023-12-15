@@ -26,9 +26,6 @@
         }
     },
     "require": {
-        "php": "^8.0",
-        "guzzlehttp/guzzle": "^7.4.4",
-        "illuminate/support": "^8|^9|^10",
         "shopify/shopify-api": "dev-main"
     },
     "require-dev": {

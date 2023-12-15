@@ -3,20 +3,25 @@
 namespace ShopifyConnector\App\Services;
 
 use Exception;
+use Shopify\Utils;
+use Shopify\Context;
 use GuzzleHttp\Client;
-use GuzzleHttp\Exception\GuzzleException;
-use ShopifyConnector\App\Contracts\ShopifyConnectorContract;
+use Shopify\Auth\FileSessionStorage;
+use App\Models\Channel\ShopifyChannel;
 
 /**
  * Handles the connection and communication with the Shopify API.
  * Manages authentication, request formatting, and rate limiting for API calls.
  */
-class ShopifyConnector implements ShopifyConnectorContract
+trait ShopifyConnector
 {
     protected Client $client; // HTTP client for making requests to Shopify API.
     protected array $params = []; // Parameters for the request body.
     protected array $options = ['timeout' => 180]; // Parameters for the request body.
     private array $lastApiCallTimes = []; // Timestamps of the last API calls for rate limiting.
+    public $orgainzation_id;
+    public $channel_id;
+    public $session;
 
     /**
      * Constructor: Sets up the ShopifyConnector with configuration data.
@@ -28,40 +33,19 @@ class ShopifyConnector implements ShopifyConnectorContract
     public function __construct(protected array $data)
     {
         // Assign default configuration if specific data not provided
-        $this->data["api_key"] = ($data["api_key"] ?? config('shopifyconnector.api_key'));
-        $this->data["access_token"] = ($data["access_token"] ?? config('shopifyconnector.access_token'));
-        $this->data["shop_url"] = ($data["shop_url"] ?? config('shopifyconnector.shop_url'));
-        $this->data["api_version"] = ($data["api_version"] ?? config('shopifyconnector.api_version'));
+        // $this->data["api_key"] = ($data["api_key"] ?? config('shopifyconnector.api_key'));
+        // $this->data["access_token"] = ($data["access_token"] ?? config('shopifyconnector.access_token'));
+        // $this->data["shop_url"] = ($data["shop_url"] ?? config('shopifyconnector.shop_url'));
+        // $this->data["api_version"] = ($data["api_version"] ?? config('shopifyconnector.api_version'));
 
-        // Validate essential data
-        if (empty($this->data["api_key"]) || empty($this->data["access_token"]) || empty($this->data["api_version"]) || empty($this->data["shop_url"])) {
-            throw new Exception("shop url, api version, access token and api key must be provided");
-        }
-
-        $this->initializeClient();
+        // // Validate essential data
+        // if (empty($this->data["api_key"]) || empty($this->data["access_token"]) || empty($this->data["api_version"]) || empty($this->data["shop_url"])) {
+        //     throw new Exception("shop url, api version, access token and api key must be provided");
+        // }
+        // $this->initializeSDK();
+        // $this->initializeClient();
     }
 
-    /**
-     * Sets the request body parameters.
-     *
-     * @param array $array Parameters for the request.
-     * @return $this for method chaining.
-     */
-    public function setBody(array $array)
-    {
-        $this->params = $array;
-        return $this;
-    }
-
-    /**
-     * Retrieves the current request body parameters.
-     *
-     * @return array The parameters.
-     */
-    public function getBody(): ?array
-    {
-        return $this->params ?? [];
-    }
 
     /**
      * Initializes the HTTP client for Shopify API requests.
@@ -75,6 +59,37 @@ class ShopifyConnector implements ShopifyConnectorContract
             'base_uri' => $url,
             'headers' => ['Content-Type' => 'application/json'],
         ]);
+    }
+
+    public function initializeSDK(): void
+    {
+        Context::initialize(
+            env("SHOPIFY_API_KEY","3bda7be4f9789a1f43d84e3d8f13fc22"),
+            $this->channelDetail()->access_token,
+            env("SHOPIFY_SCOPES","write_products,read_inventory,write_inventory,read_locations"),
+            $this->channelDetail()->shop,
+            new FileSessionStorage(),
+        );
+
+        $requestHeaders = [
+            'Content-Type' => 'application/json',
+            'X-Shopify-Access-Token' => 'SAME_TOKEN_AS_IN_CURL_EXAMPLE',
+        ];
+
+        $requestCookies = [];
+        $isOnline = true;
+
+        $this->session = Utils::loadCurrentSession(
+            $requestHeaders,
+            $requestCookies,
+            $isOnline
+        );
+        dd($this->session);
+    }
+
+    public function channelDetail()
+    {
+        return ShopifyChannel::where("channel_id",$this->channel_id)->first();
     }
 
     /**
@@ -93,127 +108,6 @@ class ShopifyConnector implements ShopifyConnectorContract
                 usleep((1 - $timeDifference) * 1000000);
             }
             array_shift($this->lastApiCallTimes);
-        }
-    }
-
-    /**
-     * Sends a GET request to the given URL with provided parameters.
-     *
-     * @param string $url The API endpoint.
-     * @param array $params Additional parameters.
-     * @return array The JSON-decoded response body.
-     */
-    public function get($url, $params = null): ?array
-    {
-        // Throttle before making the API call
-        $this->throttleApiCall();
-        if ($params != null) {
-            // ... Inside a method where you want to merge:
-            $this->options = array_merge($this->options, ['json' => $params]);
-        }
-        try {
-            $response = $this->client->request('GET', $url, $this->options);
-            return json_decode($response->getBody(), true);
-        } catch (GuzzleException $e) {
-            // Return JSON response or throw an exception if no response is present
-            return $this->handleException($e);
-        }
-    }
-
-    /**
-     * Sends a POST request to the given URL with provided parameters.
-     *
-     * @param string $url The API endpoint.
-     * @param array $params Additional parameters.
-     * @return array The JSON-decoded response body.
-     */
-    public function post($url, $params = []): ?array
-    {
-        // Throttle before making the API call
-        $this->throttleApiCall();
-        if ($params != null) {
-            // ... Inside a method where you want to merge:
-            $this->options = array_merge($this->options, ['json' => $params]);
-        }
-        try {
-            $response = $this->client->request('POST', $url, $this->options);
-            return json_decode($response->getBody(), true);
-        } catch (GuzzleException $e) {
-            // Return JSON response or throw an exception if no response is present
-            return $this->handleException($e);
-        }
-    }
-
-    /**
-     * Sends a PUT request to the given URL with provided parameters.
-     *
-     * @param string $url The API endpoint.
-     * @param array $params Additional parameters.
-     * @return array The JSON-decoded response body.
-     */
-    public function put($url, $params = []): ?array
-    {
-        // Throttle before making the API call
-        $this->throttleApiCall();
-        if ($params != null) {
-            // ... Inside a method where you want to merge:
-            $this->options = array_merge($this->options, ['json' => $params]);
-        }
-        try {
-            $response = $this->client->request('PUT', $url, $this->options);
-            return json_decode($response->getBody(), true);
-        } catch (GuzzleException $e) {
-            // Return JSON response or throw an exception if no response is present
-            return $this->handleException($e);
-        }
-    }
-
-    /**
-     * Sends a DELETE request to the given URL with provided parameters.
-     *
-     * @param string $url The API endpoint.
-     * @param array $params Additional parameters.
-     * @return array The JSON-decoded response body.
-     */
-    public function delete($url, $params = [])
-    {
-        // Throttle before making the API call
-        $this->throttleApiCall();
-        if ($params != null) {
-            // ... Inside a method where you want to merge:
-            $this->options = array_merge($this->options, ['json' => $params]);
-        }
-        try {
-            $response = $this->client->request('DELETE', $url, $this->options);
-
-            // Check if the response status code indicates a successful deletion
-            if ($response->getStatusCode() === 204 || $response->getStatusCode() === 200) {
-                return ['success' => true, 'response' => json_decode($response->getBody(), true)];
-            }
-
-            // Handle cases where the deletion was not successful
-            return ['success' => false, 'response' => json_decode($response->getBody(), true)];
-        } catch (GuzzleException $e) {
-            // Return JSON response or throw an exception if no response is present
-            return $this->handleException($e);
-        }
-    }
-
-    /**
-     * Handles exceptions from API requests.
-     * Extracts and returns the response body if available, otherwise throws an exception.
-     *
-     * @param GuzzleException $e The caught exception.
-     * @return array The JSON-decoded response body.
-     * @throws Exception if no response is associated with the error.
-     */
-    private function handleException(GuzzleException $e)
-    {
-        if ($e->hasResponse()) {
-            $responseBody = $e->getResponse()->getBody()->getContents();
-            return json_decode($responseBody, true);
-        } else {
-            throw new Exception("Error communicating with Shopify: " . $e->getMessage(), $e->getCode());
         }
     }
 }
