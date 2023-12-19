@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Shopify\Auth;
+namespace ShopifyConnector\App\Classes\Auth;
 
 use DateTime;
-use Shopify\Context;
-use Shopify\Utils;
+use ShopifyConnector\App\Classes\Context;
+use ShopifyConnector\App\Classes\Utils;
 
 /**
  * Stores App information from logged in merchants so they can make authenticated requests to the Admin API.

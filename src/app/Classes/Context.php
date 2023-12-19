@@ -2,18 +2,18 @@
 
 declare(strict_types=1);
 
-namespace Shopify;
+namespace ShopifyConnector\App\Classes;
 
 use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
-use Shopify\Auth\Scopes;
-use Shopify\Auth\SessionStorage;
-use Shopify\Clients\HttpClientFactory;
-use Shopify\Exception\FeatureDeprecatedException;
-use Shopify\Exception\MissingArgumentException;
-use Shopify\Exception\InvalidArgumentException;
-use Shopify\Exception\PrivateAppException;
-use Shopify\Exception\UninitializedContextException;
+use ShopifyConnector\App\Classes\Auth\Scopes;
+use ShopifyConnector\App\Classes\Auth\SessionStorage;
+use ShopifyConnector\App\Classes\Clients\HttpClientFactory;
+use ShopifyConnector\App\Classes\Exception\FeatureDeprecatedException;
+use ShopifyConnector\App\Classes\Exception\MissingArgumentException;
+use ShopifyConnector\App\Classes\Exception\InvalidArgumentException;
+use ShopifyConnector\App\Classes\Exception\PrivateAppException;
+use ShopifyConnector\App\Classes\Exception\UninitializedContextException;
 
 class Context
 {
@@ -68,7 +68,7 @@ class Context
      *                                                              it
      * @param string[]             $customShopDomains               One or more regexps to use when validating domains
      *
-     * @throws \Shopify\Exception\MissingArgumentException
+     * @throws \ShopifyConnector\App\Classes\Exception\MissingArgumentException
      */
     public static function initialize(
         string $apiKey,
@@ -142,7 +142,7 @@ class Context
     /**
      * Throws exception if initialize() has not been called
      *
-     * @throws \Shopify\Exception\UninitializedContextException
+     * @throws \ShopifyConnector\App\Classes\Exception\UninitializedContextException
      */
     public static function throwIfUninitialized(): void
     {
@@ -159,7 +159,7 @@ class Context
      *
      * @param string $message Message to output with the exception
      *
-     * @throws \Shopify\Exception\PrivateAppException
+     * @throws \ShopifyConnector\App\Classes\Exception\PrivateAppException
      */
     public static function throwIfPrivateApp(string $message): void
     {
@@ -175,7 +175,7 @@ class Context
      * @param string $level   One of the \Psr\Log\LogLevel::* consts, defaults to INFO
      * @param array $context  Key/value pairs of contextual information supporting the log statement
      *
-     * @throws \Shopify\Exception\UninitializedContextException
+     * @throws \ShopifyConnector\App\Classes\Exception\UninitializedContextException
      */
     public static function log(string $message, string $level = LogLevel::INFO, array $context = []): void
     {

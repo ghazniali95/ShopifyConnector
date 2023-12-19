@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Shopify;
+namespace ShopifyConnector\App\Classes;
 
-use Shopify\Context;
-use Shopify\Auth\OAuth;
-use Shopify\Auth\Session;
-use Shopify\Clients\Graphql;
-use Shopify\Clients\HttpResponse;
-use Shopify\Exception\InvalidArgumentException;
-use Shopify\Exception\SessionNotFoundException;
+use ShopifyConnector\App\Classes\Context;
+use ShopifyConnector\App\Classes\Auth\OAuth;
+use ShopifyConnector\App\Classes\Auth\Session;
+use ShopifyConnector\App\Classes\Clients\Graphql;
+use ShopifyConnector\App\Classes\Clients\HttpResponse;
+use ShopifyConnector\App\Classes\Exception\InvalidArgumentException;
+use ShopifyConnector\App\Classes\Exception\SessionNotFoundException;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 
@@ -140,7 +140,7 @@ final class Utils
      * @param string $referenceVersion The version to check
      *
      * @return bool
-     * @throws \Shopify\Exception\InvalidArgumentException
+     * @throws \ShopifyConnector\App\Classes\Exception\InvalidArgumentException
      */
     public static function isApiVersionCompatible(string $referenceVersion): bool
     {
@@ -166,7 +166,7 @@ final class Utils
      * @param bool   $includeExpired Optionally include expired sessions, defaults to false
      *
      * @return Session|null If exists, the most recent session
-     * @throws \Shopify\Exception\UninitializedContextException
+     * @throws \ShopifyConnector\App\Classes\Exception\UninitializedContextException
      */
     public static function loadOfflineSession(string $shop, bool $includeExpired = false): ?Session
     {
@@ -190,8 +190,8 @@ final class Utils
      * @param bool  $isOnline   Whether to load online or offline sessions
      *
      * @return Session|null The session or null if the session can't be found
-     * @throws \Shopify\Exception\CookieNotFoundException
-     * @throws \Shopify\Exception\MissingArgumentException
+     * @throws \ShopifyConnector\App\Classes\Exception\CookieNotFoundException
+     * @throws \ShopifyConnector\App\Classes\Exception\MissingArgumentException
      */
     public static function loadCurrentSession(array $rawHeaders, array $cookies, bool $isOnline): ?Session
     {
@@ -223,10 +223,10 @@ final class Utils
      *
      * @return HttpResponse
      * @throws \Psr\Http\Client\ClientExceptionInterface
-     * @throws \Shopify\Exception\CookieNotFoundException
-     * @throws \Shopify\Exception\MissingArgumentException
-     * @throws \Shopify\Exception\SessionNotFoundException
-     * @throws \Shopify\Exception\UninitializedContextException
+     * @throws \ShopifyConnector\App\Classes\Exception\CookieNotFoundException
+     * @throws \ShopifyConnector\App\Classes\Exception\MissingArgumentException
+     * @throws \ShopifyConnector\App\Classes\Exception\SessionNotFoundException
+     * @throws \ShopifyConnector\App\Classes\Exception\UninitializedContextException
      */
     public static function graphqlProxy(array $rawHeaders, array $cookies, string $rawBody): HttpResponse
     {
