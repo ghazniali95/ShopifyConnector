@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace  Ghazniali95\ShopifyConnector\App\Classes\Exception;
+namespace  Ghazniali95\ShopifyConnector\App\Exception;
 
 class CookieSetException extends ShopifyException
 {
