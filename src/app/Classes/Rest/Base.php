@@ -41,7 +41,7 @@ abstract class Base extends ShopifyConnector
     private array $setProps; 
     private array $lastApiCallTimes = []; // Timestamps of the last API calls for rate limiting.
 
-    public function __construct(Session $session, array $fromData = null , $data = [])
+    public function __construct(Session $session = null, array $fromData = null , $data = [])
     {
         if (Context::$API_VERSION !== static::$API_VERSION) {
             $contextVersion = Context::$API_VERSION;
@@ -53,11 +53,11 @@ abstract class Base extends ShopifyConnector
 
         $this->originalState = [];
         $this->setProps = [];
-        if(isset($session)){
-            $this->session = $session;
-        }
+        // if(isset($session)){
+        //     $this->session = $session;
+        // }
 
-        $this->initializeSession($data);
+        // $this->initializeSession($data);
     
 
         if (!empty($fromData)) {

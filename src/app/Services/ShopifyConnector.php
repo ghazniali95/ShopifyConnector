@@ -27,10 +27,12 @@ class ShopifyConnector
      * @param array $data Configuration data (API key, access token, shop URL, and API version).
      * @throws Exception if required configuration data is missing.
      */
-    public function __construct(protected array $data)
+    public function __construct(protected array $data = [])
     { 
-        $this->orgainzation_id = $data['orgainzation_id'];
-        $this->channel_id = $data['channel_id']; 
+        if(count($data) > 0){
+            $this->orgainzation_id = $data['orgainzation_id'];
+            $this->channel_id = $data['channel_id']; 
+        } 
     }
 
 
