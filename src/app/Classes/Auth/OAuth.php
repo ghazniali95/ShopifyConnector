@@ -10,14 +10,14 @@ use Ghazniali95\ShopifyConnector\App\Classes\Context;
 use Ghazniali95\ShopifyConnector\App\Classes\Clients\Http;
 use Ghazniali95\ShopifyConnector\App\Classes\Clients\HttpHeaders;
 use Ghazniali95\ShopifyConnector\App\Classes\Clients\HttpResponse;
-use Ghazniali95\ShopifyConnector\App\Classes\Exception\CookieSetException;
-use Ghazniali95\ShopifyConnector\App\Classes\Exception\HttpRequestException;
-use Ghazniali95\ShopifyConnector\App\Classes\Exception\InvalidOAuthException;
-use Ghazniali95\ShopifyConnector\App\Classes\Exception\CookieNotFoundException;
-use Ghazniali95\ShopifyConnector\App\Classes\Exception\SessionStorageException;
-use Ghazniali95\ShopifyConnector\App\Classes\Exception\InvalidArgumentException;
-use Ghazniali95\ShopifyConnector\App\Classes\Exception\MissingArgumentException;
-use Ghazniali95\ShopifyConnector\App\Classes\Exception\OAuthSessionNotFoundException;
+use Ghazniali95\ShopifyConnector\App\Exception\CookieSetException;
+use Ghazniali95\ShopifyConnector\App\Exception\HttpRequestException;
+use Ghazniali95\ShopifyConnector\App\Exception\InvalidOAuthException;
+use Ghazniali95\ShopifyConnector\App\Exception\CookieNotFoundException;
+use Ghazniali95\ShopifyConnector\App\Exception\SessionStorageException;
+use Ghazniali95\ShopifyConnector\App\Exception\InvalidArgumentException;
+use Ghazniali95\ShopifyConnector\App\Exception\MissingArgumentException;
+use Ghazniali95\ShopifyConnector\App\Exception\OAuthSessionNotFoundException;
 
 /**
  * Provides methods to perform OAuth with Shopify.

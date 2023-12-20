@@ -3,7 +3,7 @@
 namespace  Ghazniali95\ShopifyConnector\App\Classes\Webhooks\Delivery;
 
 use Ghazniali95\ShopifyConnector\App\Classes\Context;
-use Ghazniali95\ShopifyConnector\App\Classes\Exception\InvalidArgumentException;
+use Ghazniali95\ShopifyConnector\App\Exception\InvalidArgumentException;
 use Ghazniali95\ShopifyConnector\App\Classes\Utils;
 use Ghazniali95\ShopifyConnector\App\Classes\Webhooks\DeliveryMethod;
 

@@ -9,11 +9,11 @@ use Psr\Log\LogLevel;
 use Ghazniali95\ShopifyConnector\App\Classes\Auth\Scopes;
 use Ghazniali95\ShopifyConnector\App\Classes\Auth\SessionStorage;
 use Ghazniali95\ShopifyConnector\App\Classes\Clients\HttpClientFactory;
-use Ghazniali95\ShopifyConnector\App\Classes\Exception\FeatureDeprecatedException;
-use Ghazniali95\ShopifyConnector\App\Classes\Exception\MissingArgumentException;
-use Ghazniali95\ShopifyConnector\App\Classes\Exception\InvalidArgumentException;
-use Ghazniali95\ShopifyConnector\App\Classes\Exception\PrivateAppException;
-use Ghazniali95\ShopifyConnector\App\Classes\Exception\UninitializedContextException;
+use Ghazniali95\ShopifyConnector\App\Exception\FeatureDeprecatedException;
+use Ghazniali95\ShopifyConnector\App\Exception\MissingArgumentException;
+use Ghazniali95\ShopifyConnector\App\Exception\InvalidArgumentException;
+use Ghazniali95\ShopifyConnector\App\Exception\PrivateAppException;
+use Ghazniali95\ShopifyConnector\App\Exception\UninitializedContextException;
 
 class Context
 {

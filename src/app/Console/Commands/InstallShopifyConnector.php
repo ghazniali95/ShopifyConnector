@@ -98,7 +98,7 @@ class InstallShopifyConnector extends Command
     private function publishConfiguration($forcePublish = false)
     {
         $params = [
-            '--provider' => "ShopifyConnector\App\Providers\ShopifyConnectorProvider",
+            '--provider' => "Ghazniali95\ShopifyConnector\App\Providers\ShopifyConnectorProvider",
             '--tag' => "shopifyconnector"
         ];
 
@@ -121,8 +121,8 @@ class InstallShopifyConnector extends Command
         $appConfigContent = file_get_contents($appConfigPath);
 
         // Define the service provider and alias to be added
-        $providerToAdd = "    ShopifyConnector\\App\\Providers\\ShopifyConnectorProvider::class,\n";
-        $aliasToAdd = "    'ShopifyService' => ShopifyConnector\\App\\Facades\\ShopifyService::class,\n";
+        $providerToAdd = "    Ghazniali95\ShopifyConnector\\App\\Providers\\ShopifyConnectorProvider::class,\n";
+        $aliasToAdd = "    'ShopifyService' => Ghazniali95\ShopifyConnector\\App\\Facades\\ShopifyService::class,\n";
 
         // Insert the service provider and alias into the app configuration
         if (!str_contains($appConfigContent, $providerToAdd)) {

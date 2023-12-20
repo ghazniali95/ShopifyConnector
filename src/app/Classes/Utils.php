@@ -11,8 +11,8 @@ use Ghazniali95\ShopifyConnector\App\Classes\Auth\OAuth;
 use Ghazniali95\ShopifyConnector\App\Classes\Auth\Session;
 use Ghazniali95\ShopifyConnector\App\Classes\Clients\Graphql; 
 use Ghazniali95\ShopifyConnector\App\Classes\Clients\HttpResponse;
-use Ghazniali95\ShopifyConnector\App\Classes\Exception\InvalidArgumentException;
-use Ghazniali95\ShopifyConnector\App\Classes\Exception\SessionNotFoundException;
+use Ghazniali95\ShopifyConnector\App\Exception\InvalidArgumentException;
+use Ghazniali95\ShopifyConnector\App\Exception\SessionNotFoundException;
 
 /**
  * Class to store all util functions

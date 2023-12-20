@@ -11,8 +11,8 @@ use Ghazniali95\ShopifyConnector\App\Classes\Auth\Session;
 use Ghazniali95\ShopifyConnector\App\Classes\Clients\Rest;
 use Ghazniali95\ShopifyConnector\App\Classes\Clients\RestResponse;
 use Ghazniali95\ShopifyConnector\App\Services\ShopifyConnector;
-use Ghazniali95\ShopifyConnector\App\Classes\Exception\RestResourceException;
-use Ghazniali95\ShopifyConnector\App\Classes\Exception\RestResourceRequestException;
+use Ghazniali95\ShopifyConnector\App\Exception\RestResourceException;
+use Ghazniali95\ShopifyConnector\App\Exception\RestResourceRequestException;
 
 // When upgrading to PHP 8.2, consider using the AllowDynamicProperties attribute
 // https://stitcher.io/blog/deprecated-dynamic-properties-in-php-82#a-better-alternative
