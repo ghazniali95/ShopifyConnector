@@ -38,8 +38,10 @@ class ShopifyConnector
      * Initializes the HTTP client for Shopify API requests.
      * Configures base URI and headers including authentication details.
      */
-    public function initializeSession(): void
+    public function initializeSession($data): void
     {
+        $this->orgainzation_id = $data['orgainzation_id'];
+        $this->channel_id = $data['channel_id']; 
         Context::initialize(
             env("SHOPIFY_API_KEY","3bda7be4f9789a1f43d84e3d8f13fc22"),
             env("SHOPIFY_SHARED_SECRET","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"),

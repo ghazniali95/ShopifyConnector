@@ -456,4 +456,11 @@ abstract class Base extends ShopifyConnector
             array_shift($this->lastApiCallTimes);
         }
     }
+
+    public function setInitials($data = [])
+    {
+        $this->initializeSession($data);
+        return $this;
+    }
+     
 }
