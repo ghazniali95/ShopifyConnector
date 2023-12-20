@@ -1,10 +1,10 @@
 <?php
 
-namespace ShopifyConnector\App\Providers;
+namespace  Ghazniali95\ShopifyConnector\App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use ShopifyConnector\App\Services\ShopifyConnector;
-use ShopifyConnector\App\Console\Commands\InstallShopifyConnector;
+use Ghazniali95\ShopifyConnector\App\Services\ShopifyConnector;
+use Ghazniali95\ShopifyConnector\App\Console\Commands\InstallShopifyConnector;
 
 /**
  * Shopify Connector Service Provider.

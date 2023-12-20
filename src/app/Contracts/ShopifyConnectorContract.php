@@ -1,6 +1,6 @@
 <?php
 
-namespace ShopifyConnector\App\Contracts;
+namespace  Ghazniali95\ShopifyConnector\App\Contracts;
 
 /**
  * Interface for Shopify Connector.

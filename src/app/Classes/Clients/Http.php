@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace ShopifyConnector\App\Classes\Clients;
+namespace  Ghazniali95\ShopifyConnector\App\Classes\Clients;
 
 use Exception;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Uri;
 use GuzzleHttp\Psr7\Utils;
-use ShopifyConnector\App\Classes\Context;
+use Ghazniali95\ShopifyConnector\App\Classes\Context;
 
 class Http
 {

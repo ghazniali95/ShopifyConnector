@@ -5,7 +5,7 @@
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "ShopifyConnector\\": "src"
+            "Ghazniali95\\ShopifyConnector\\": "src"
         }
     },
     "keywords": [
@@ -29,10 +29,10 @@
     "extra": {
         "laravel": {
             "providers": [
-                "ShopifyConnector\\App\\Providers\\ShopifyConnectorProvider"
+                "Ghazniali95\\ShopifyConnector\\App\\Providers\\ShopifyConnectorProvider"
             ],
             "aliases": {
-                "Calculator": "ShopifyConnector\\App\\Facades\\ShopifyService"
+                "Calculator": "Ghazniali95\\ShopifyConnector\\App\\Facades\\ShopifyService"
             }
         }
     },

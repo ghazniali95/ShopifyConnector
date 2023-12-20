@@ -2,18 +2,18 @@
 
 declare(strict_types=1);
 
-namespace ShopifyConnector\App\Classes;
+namespace  Ghazniali95\ShopifyConnector\App\Classes;
 
 use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
-use ShopifyConnector\App\Classes\Auth\Scopes;
-use ShopifyConnector\App\Classes\Auth\SessionStorage;
-use ShopifyConnector\App\Classes\Clients\HttpClientFactory;
-use ShopifyConnector\App\Classes\Exception\FeatureDeprecatedException;
-use ShopifyConnector\App\Classes\Exception\MissingArgumentException;
-use ShopifyConnector\App\Classes\Exception\InvalidArgumentException;
-use ShopifyConnector\App\Classes\Exception\PrivateAppException;
-use ShopifyConnector\App\Classes\Exception\UninitializedContextException;
+use Ghazniali95\ShopifyConnector\App\Classes\Auth\Scopes;
+use Ghazniali95\ShopifyConnector\App\Classes\Auth\SessionStorage;
+use Ghazniali95\ShopifyConnector\App\Classes\Clients\HttpClientFactory;
+use Ghazniali95\ShopifyConnector\App\Classes\Exception\FeatureDeprecatedException;
+use Ghazniali95\ShopifyConnector\App\Classes\Exception\MissingArgumentException;
+use Ghazniali95\ShopifyConnector\App\Classes\Exception\InvalidArgumentException;
+use Ghazniali95\ShopifyConnector\App\Classes\Exception\PrivateAppException;
+use Ghazniali95\ShopifyConnector\App\Classes\Exception\UninitializedContextException;
 
 class Context
 {

@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace ShopifyConnector\App\Classes\Exception;
+namespace  Ghazniali95\ShopifyConnector\App\Classes\Exception;
 
-use ShopifyConnector\App\Classes\Exception\ShopifyException;
+use Ghazniali95\ShopifyConnector\App\Classes\Exception\ShopifyException;
 
 class SessionNotFoundException extends ShopifyException
 {

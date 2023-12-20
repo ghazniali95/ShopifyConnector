@@ -1,8 +1,8 @@
 <?php
-namespace ShopifyConnector\Tests;
+namespace  Ghazniali95\ShopifyConnectorTests;
 
 use PHPUnit\Framework\TestCase;
-use ShopifyConnector\Services\ShopifyService;
+use Ghazniali95\ShopifyConnector\Services\ShopifyService;
 
 class ShopifyConnectorTest extends TestCase
 {

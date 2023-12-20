@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace ShopifyConnector\App\Classes\Rest;
+namespace  Ghazniali95\ShopifyConnector\App\Classes\Rest;
 
 use ReflectionClass;
 use Doctrine\Inflector\InflectorFactory;
-use ShopifyConnector\App\Classes\Context;
-use ShopifyConnector\App\Classes\Auth\Session;
-use ShopifyConnector\App\Classes\Clients\Rest;
-use ShopifyConnector\App\Services\ShopifyConnector;
-use ShopifyConnector\App\Classes\Clients\RestResponse;
-use ShopifyConnector\App\Classes\Exception\RestResourceException;
-use ShopifyConnector\App\Classes\Exception\RestResourceRequestException;
+use Ghazniali95\ShopifyConnector\App\Classes\Context;
+use Ghazniali95\ShopifyConnector\App\Classes\Auth\Session;
+use Ghazniali95\ShopifyConnector\App\Classes\Clients\Rest;
+use Ghazniali95\ShopifyConnector\App\Classes\Clients\RestResponse;
+use Ghazniali95\ShopifyConnector\App\Services\ShopifyConnector;
+use Ghazniali95\ShopifyConnector\App\Classes\Exception\RestResourceException;
+use Ghazniali95\ShopifyConnector\App\Classes\Exception\RestResourceRequestException;
 
 // When upgrading to PHP 8.2, consider using the AllowDynamicProperties attribute
 // https://stitcher.io/blog/deprecated-dynamic-properties-in-php-82#a-better-alternative

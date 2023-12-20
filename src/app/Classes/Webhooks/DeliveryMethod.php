@@ -1,6 +1,6 @@
 <?php
 
-namespace ShopifyConnector\App\Classes\Webhooks;
+namespace  Ghazniali95\ShopifyConnector\App\Classes\Webhooks;
 
 abstract class DeliveryMethod
 {

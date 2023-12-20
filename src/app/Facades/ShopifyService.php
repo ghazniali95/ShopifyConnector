@@ -1,6 +1,6 @@
 <?php
 
-namespace ShopifyConnector\App\Facades;
+namespace  Ghazniali95\ShopifyConnector\App\Facades;
 
 use Illuminate\Support\Facades\Facade;
 

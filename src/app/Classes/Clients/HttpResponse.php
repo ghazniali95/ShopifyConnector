@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace ShopifyConnector\App\Classes\Clients;
+namespace  Ghazniali95\ShopifyConnector\App\Classes\Clients;
 
 use GuzzleHttp\Psr7\Response;
 use Psr\Http\Message\ResponseInterface;

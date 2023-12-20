@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace ShopifyConnector\App\Classes\Clients;
+namespace  Ghazniali95\ShopifyConnector\App\Classes\Clients;
 
 /**
  * Value object used to represent a set of HTTP headers received in a request.

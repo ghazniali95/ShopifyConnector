@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace ShopifyConnector\App\Classes\Clients;
+namespace  Ghazniali95\ShopifyConnector\App\Classes\Clients;
 
-use ShopifyConnector\App\Classes\Context;
-use ShopifyConnector\App\Classes\Exception\MissingArgumentException;
+use Ghazniali95\ShopifyConnector\App\Classes\Context;
+use Ghazniali95\ShopifyConnector\App\Classes\Exception\MissingArgumentException;
 
 class Graphql
 {

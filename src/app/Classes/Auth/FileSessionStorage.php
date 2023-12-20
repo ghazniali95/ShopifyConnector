@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace ShopifyConnector\App\Classes\Auth;
+namespace  Ghazniali95\ShopifyConnector\App\Classes\Auth;
 
 /**
  * Stores Sessions in a local file so that Session variables can be accessed throughout the app.

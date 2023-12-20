@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace ShopifyConnector\App\Classes;
+namespace  Ghazniali95\ShopifyConnector\App\Classes;
 
-use ShopifyConnector\App\Classes\Context;
-use ShopifyConnector\App\Classes\Auth\OAuth;
-use ShopifyConnector\App\Classes\Auth\Session;
-use ShopifyConnector\App\Classes\Clients\Graphql;
-use ShopifyConnector\App\Classes\Clients\HttpResponse;
-use ShopifyConnector\App\Classes\Exception\InvalidArgumentException;
-use ShopifyConnector\App\Classes\Exception\SessionNotFoundException;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
+use Ghazniali95\ShopifyConnector\App\Classes\Context;
+use Ghazniali95\ShopifyConnector\App\Classes\Auth\OAuth;
+use Ghazniali95\ShopifyConnector\App\Classes\Auth\Session;
+use Ghazniali95\ShopifyConnector\App\Classes\Clients\Graphql; 
+use Ghazniali95\ShopifyConnector\App\Classes\Clients\HttpResponse;
+use Ghazniali95\ShopifyConnector\App\Classes\Exception\InvalidArgumentException;
+use Ghazniali95\ShopifyConnector\App\Classes\Exception\SessionNotFoundException;
 
 /**
  * Class to store all util functions

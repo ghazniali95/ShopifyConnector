@@ -1,14 +1,14 @@
 <?php
 
-namespace ShopifyConnector\App\Services;
+namespace  Ghazniali95\ShopifyConnector\App\Services;
 
 use Exception;
 use GuzzleHttp\Client;
 use App\Models\Channel\ShopifyChannel;
-use ShopifyConnector\App\Classes\Utils;
-use ShopifyConnector\App\Classes\Context;
-use ShopifyConnector\App\Classes\Auth\Session;
-use ShopifyConnector\App\Classes\Auth\FileSessionStorage;
+use Ghazniali95\ShopifyConnector\App\Classes\Utils;
+use Ghazniali95\ShopifyConnector\App\Classes\Context;
+use Ghazniali95\ShopifyConnector\App\Classes\Auth\Session;
+use Ghazniali95\ShopifyConnector\App\Classes\Auth\FileSessionStorage;
 
 /**
  * Handles the connection and communication with the Shopify API.

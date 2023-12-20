@@ -2,20 +2,20 @@
 
 declare(strict_types=1);
 
-namespace ShopifyConnector\App\Classes\Webhooks;
+namespace  Ghazniali95\ShopifyConnector\App\Classes\Webhooks;
 
 use Exception;
-use ShopifyConnector\App\Classes\Clients\Graphql;
-use ShopifyConnector\App\Classes\Clients\HttpHeaders;
-use ShopifyConnector\App\Classes\Context;
-use ShopifyConnector\App\Classes\Exception\InvalidArgumentException;
-use ShopifyConnector\App\Classes\Exception\InvalidWebhookException;
-use ShopifyConnector\App\Classes\Exception\MissingWebhookHandlerException;
-use ShopifyConnector\App\Classes\Exception\WebhookRegistrationException;
-use ShopifyConnector\App\Classes\Utils;
-use ShopifyConnector\App\Classes\Webhooks\Delivery\EventBridge;
-use ShopifyConnector\App\Classes\Webhooks\Delivery\HttpDelivery;
-use ShopifyConnector\App\Classes\Webhooks\Delivery\PubSub;
+use Ghazniali95\ShopifyConnector\App\Classes\Clients\Graphql;
+use Ghazniali95\ShopifyConnector\App\Classes\Clients\HttpHeaders;
+use Ghazniali95\ShopifyConnector\App\Classes\Context;
+use Ghazniali95\ShopifyConnector\App\Classes\Exception\InvalidArgumentException;
+use Ghazniali95\ShopifyConnector\App\Classes\Exception\InvalidWebhookException;
+use Ghazniali95\ShopifyConnector\App\Classes\Exception\MissingWebhookHandlerException;
+use Ghazniali95\ShopifyConnector\App\Classes\Exception\WebhookRegistrationException;
+use Ghazniali95\ShopifyConnector\App\Classes\Utils;
+use Ghazniali95\ShopifyConnector\App\Classes\Webhooks\Delivery\EventBridge;
+use Ghazniali95\ShopifyConnector\App\Classes\Webhooks\Delivery\HttpDelivery;
+use Ghazniali95\ShopifyConnector\App\Classes\Webhooks\Delivery\PubSub;
 
 /**
  * Handles registering and processing webhook calls.

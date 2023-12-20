@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace ShopifyConnector\App\Classes;
+namespace  Ghazniali95\ShopifyConnector\App\Classes;
 
 class ApiVersion
 {

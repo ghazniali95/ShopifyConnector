@@ -6,10 +6,10 @@
 
 declare(strict_types=1);
 
-namespace ShopifyConnector\App\Classes\Rest\Admin2023_10;
+namespace  Ghazniali95\ShopifyConnector\App\Classes\Rest\Admin2023_10;
 
-use ShopifyConnector\App\Classes\Auth\Session;
-use ShopifyConnector\App\Classes\Rest\Base;
+use Ghazniali95\ShopifyConnector\App\Classes\Auth\Session;
+use Ghazniali95\ShopifyConnector\App\Classes\Rest\Base;
 
 /**
  * @property string|null $body

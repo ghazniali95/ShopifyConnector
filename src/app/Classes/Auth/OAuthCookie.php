@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace ShopifyConnector\App\Classes\Auth;
+namespace  Ghazniali95\ShopifyConnector\App\Classes\Auth;
 
 /**
  * Stores Cookie information to be used in OAuth

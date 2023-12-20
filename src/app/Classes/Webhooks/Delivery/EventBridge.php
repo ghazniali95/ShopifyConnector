@@ -1,11 +1,11 @@
 <?php
 
-namespace ShopifyConnector\App\Classes\Webhooks\Delivery;
+namespace  Ghazniali95\ShopifyConnector\App\Classes\Webhooks\Delivery;
 
-use ShopifyConnector\App\Classes\Context;
-use ShopifyConnector\App\Classes\Exception\InvalidArgumentException;
-use ShopifyConnector\App\Classes\Utils;
-use ShopifyConnector\App\Classes\Webhooks\DeliveryMethod;
+use Ghazniali95\ShopifyConnector\App\Classes\Context;
+use Ghazniali95\ShopifyConnector\App\Classes\Exception\InvalidArgumentException;
+use Ghazniali95\ShopifyConnector\App\Classes\Utils;
+use Ghazniali95\ShopifyConnector\App\Classes\Webhooks\DeliveryMethod;
 
 class EventBridge extends DeliveryMethod
 {

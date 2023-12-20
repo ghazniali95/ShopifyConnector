@@ -1,6 +1,6 @@
 <?php
 
-namespace ShopifyConnector\App\Console\Commands;
+namespace Ghazniali95\ShopifyConnector\App\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;

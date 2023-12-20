@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace ShopifyConnector\App\Classes\Clients;
+namespace  Ghazniali95\ShopifyConnector\App\Classes\Clients;
 
 class PageInfo
 {

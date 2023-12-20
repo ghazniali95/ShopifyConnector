@@ -1,6 +1,6 @@
 <?php
 
-namespace ShopifyConnector\Tests\Unit;
+namespace  Ghazniali95\ShopifyConnectorTests\Unit;
 
 use Tests\CreatesApplication;
 use Illuminate\Support\Facades\File;

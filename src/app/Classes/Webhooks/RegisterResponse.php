@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace ShopifyConnector\App\Classes\Webhooks;
+namespace  Ghazniali95\ShopifyConnector\App\Classes\Webhooks;
 
 final class RegisterResponse
 {

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace ShopifyConnector\App\Classes\Exception;
+namespace  Ghazniali95\ShopifyConnector\App\Classes\Exception;
 
 class InvalidOAuthException extends ShopifyException
 {
