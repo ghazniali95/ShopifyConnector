@@ -5,12 +5,14 @@ declare(strict_types=1);
 namespace  Ghazniali95\ShopifyConnector\App\Classes\Rest;
 
 use ReflectionClass;
+use App\Models\Channel\ShopifyChannel;
 use Doctrine\Inflector\InflectorFactory;
 use Ghazniali95\ShopifyConnector\App\Classes\Context;
 use Ghazniali95\ShopifyConnector\App\Classes\Auth\Session;
 use Ghazniali95\ShopifyConnector\App\Classes\Clients\Rest;
-use Ghazniali95\ShopifyConnector\App\Classes\Clients\RestResponse;
 use Ghazniali95\ShopifyConnector\App\Services\ShopifyConnector;
+use Ghazniali95\ShopifyConnector\App\Classes\Clients\RestResponse;
+use Ghazniali95\ShopifyConnector\App\Classes\Auth\FileSessionStorage;
 use Ghazniali95\ShopifyConnector\App\Exception\RestResourceException;
 use Ghazniali95\ShopifyConnector\App\Exception\RestResourceRequestException;
 
@@ -38,11 +40,16 @@ abstract class Base extends ShopifyConnector
     protected static array $READ_ONLY_ATTRIBUTES = [];
 
     private array $originalState;
-    private array $setProps; 
+    private array $setProps;
     private array $lastApiCallTimes = []; // Timestamps of the last API calls for rate limiting.
+    public Session $session;  
+    public $channel_id;
 
-    public function __construct(Session $session = null, array $fromData = null , $data = [])
-    {
+    public function __construct(?Session $session = null, array $fromData = null , $data = [])
+    { 
+        $this->channel_id = isset($data['channel_id']) ? $data['channel_id'] : null;
+        if(!is_null($this->channel_id)){
+            $this->session = $this->initializeSession($data = []);
         if (Context::$API_VERSION !== static::$API_VERSION) {
             $contextVersion = Context::$API_VERSION;
             $thisVersion = static::$API_VERSION;
@@ -50,15 +57,16 @@ abstract class Base extends ShopifyConnector
                 "Current Context::\$API_VERSION '$contextVersion' does not match resource version '$thisVersion'",
             );
         }
+        }else{
+            if(!is_null($session)){
+                $this->session = $session;
+            }
+
+        }
 
         $this->originalState = [];
         $this->setProps = [];
-        // if(isset($session)){
-        //     $this->session = $session;
-        // }
 
-        // $this->initializeSession($data);
-    
 
         if (!empty($fromData)) {
             self::setInstanceData($this, $fromData);
@@ -155,6 +163,7 @@ abstract class Base extends ShopifyConnector
      */
     protected static function baseFind(Session $session, array $ids = [], array $params = []): array
     {
+
         $response = self::request("get", "get", $session, $ids, $params);
 
         static::$NEXT_PAGE_QUERY = static::$PREV_PAGE_QUERY = null;
@@ -180,7 +189,7 @@ abstract class Base extends ShopifyConnector
         self $entity = null
     ): RestResponse {
         $path = static::getPath($httpMethod, $operation, $ids, $entity);
-
+    ;
         $client = new Rest($session->getShop(), $session->getAccessToken());
 
         $params = array_filter($params);
@@ -214,6 +223,7 @@ abstract class Base extends ShopifyConnector
         }
 
         $statusCode = $response->getStatusCode();
+
         if ($statusCode < 200 || $statusCode >= 300) {
             $message = "REST request failed";
 
@@ -317,6 +327,7 @@ abstract class Base extends ShopifyConnector
         $instance = $instance ?: new static($session);
 
         if (!empty($data)) {
+
             self::setInstanceData($instance, $data);
         }
 
@@ -457,10 +468,43 @@ abstract class Base extends ShopifyConnector
         }
     }
 
-    public function setInitials($data = [])
-    {
-        $this->initializeSession($data);
-        return $this;
+    /**
+     * Initializes the HTTP client for Shopify API requests.
+     * Configures base URI and headers including authentication details.
+     */
+    public function initializeSession($data): Session
+    { 
+        $this->channel_id = isset($data['channel_id']) ? $data['channel_id'] : null;
+        Context::initialize(
+            env("SHOPIFY_API_KEY","3bda7be4f9789a1f43d84e3d8f13fc22"),
+            env("SHOPIFY_SHARED_SECRET","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"),
+             env("SHOPIFY_SCOPES","write_products,read_inventory,write_inventory,read_locations"),
+             env("APP_URL","http://localhost:8000/"),
+             new FileSessionStorage(storage_path('shopify/sessions/')),
+                 '2023-10',
+                 true,
+                 false,
+                 null,
+                 '',
+                 null,
+                [ $this->channelDetail()->shop]
+
+             );
+
+            $this->session = new Session(
+                id: $this->channelDetail()->shop_id,
+                shop: $this->channelDetail()->shop,
+                isOnline: true,
+                state:'NA'
+            );
+            $this->session->setAccessToken($this->channelDetail()->access_token);
+            $this->session->setScope(env("SHOPIFY_SCOPES","write_products,read_inventory,write_inventory,read_locations"));
+            return $this->session;
     }
-     
+
+    public function channelDetail()
+    {
+        return ShopifyChannel::where("channel_id",$this->channel_id)->first();
+    }
+
 }
