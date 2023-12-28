@@ -9,11 +9,15 @@ use App\Models\Channel\ShopifyChannel;
 use Doctrine\Inflector\InflectorFactory;
 use Ghazniali95\ShopifyConnector\App\Classes\Context;
 use Ghazniali95\ShopifyConnector\App\Classes\Auth\Session;
+use Ghazniali95\ShopifyConnector\App\Classes\Clients\Http;
 use Ghazniali95\ShopifyConnector\App\Classes\Clients\Rest;
 use Ghazniali95\ShopifyConnector\App\Services\ShopifyConnector;
+use Ghazniali95\ShopifyConnector\App\Classes\Clients\HttpHeaders;
+use Ghazniali95\ShopifyConnector\App\Classes\Clients\HttpResponse;
 use Ghazniali95\ShopifyConnector\App\Classes\Clients\RestResponse;
 use Ghazniali95\ShopifyConnector\App\Classes\Auth\FileSessionStorage;
 use Ghazniali95\ShopifyConnector\App\Exception\RestResourceException;
+use Ghazniali95\ShopifyConnector\App\Exception\MissingArgumentException;
 use Ghazniali95\ShopifyConnector\App\Exception\RestResourceRequestException;
 
 // When upgrading to PHP 8.2, consider using the AllowDynamicProperties attribute
@@ -42,11 +46,13 @@ abstract class Base extends ShopifyConnector
     private array $originalState;
     private array $setProps;
     private array $lastApiCallTimes = []; // Timestamps of the last API calls for rate limiting.
-    public Session $session;  
+    public Session $session;
+    public $organization_id;
     public $channel_id;
 
     public function __construct(?Session $session = null, array $fromData = null , $data = [])
-    { 
+    {
+        $this->organization_id = isset($data['organization_id']) ? $data['organization_id'] : null;
         $this->channel_id = isset($data['channel_id']) ? $data['channel_id'] : null;
         if(!is_null($this->channel_id)){
             $this->session = $this->initializeSession($data = []);
@@ -189,10 +195,11 @@ abstract class Base extends ShopifyConnector
         self $entity = null
     ): RestResponse {
         $path = static::getPath($httpMethod, $operation, $ids, $entity);
-    ;
+
         $client = new Rest($session->getShop(), $session->getAccessToken());
 
         $params = array_filter($params);
+
         switch ($httpMethod) {
             case "get":
                 $response = $client->get(
@@ -235,7 +242,7 @@ abstract class Base extends ShopifyConnector
 
             throw new RestResourceRequestException($message, $statusCode);
         }
-
+        // dump($response);
         return $response;
     }
 
@@ -300,7 +307,6 @@ abstract class Base extends ShopifyConnector
 
         foreach ($classNames as $className) {
             $pluralClass = self::pluralize($className);
-
             if (!empty($body)) {
                 if (array_key_exists($pluralClass, $body)) {
                     foreach ($body[$pluralClass] as $entry) {
@@ -473,7 +479,8 @@ abstract class Base extends ShopifyConnector
      * Configures base URI and headers including authentication details.
      */
     public function initializeSession($data): Session
-    { 
+    {
+        $this->organization_id = isset($data['organization_id']) ? $data['organization_id'] : null;
         $this->channel_id = isset($data['channel_id']) ? $data['channel_id'] : null;
         Context::initialize(
             env("SHOPIFY_API_KEY","3bda7be4f9789a1f43d84e3d8f13fc22"),
@@ -505,6 +512,102 @@ abstract class Base extends ShopifyConnector
     public function channelDetail()
     {
         return ShopifyChannel::where("channel_id",$this->channel_id)->first();
+    }
+
+        /**
+     * Sends a GraphQL query to this client's domain.
+     *
+     * @param string|array   $data         Query to be posted to endpoint
+     * @param array          $query        Parameters on a query to be added to the URL
+     * @param array          $extraHeaders Any extra headers to send along with the request
+     * @param int|null       $tries        How many times to attempt the request
+     *
+     * @return HttpResponse
+     * @throws \ShopifyConnector\App\Classes\Exception\HttpRequestException
+     * @throws \ShopifyConnector\App\Classes\Exception\MissingArgumentException
+     */
+    public function query(
+        $data,
+        array $query = [],
+        array $extraHeaders = [],
+        ?int $tries = null
+    ): HttpResponse {
+        if (empty($data)) {
+            throw new MissingArgumentException('Query missing');
+        }
+        list($accessTokenHeader, $accessToken) = $this->getAccessTokenHeader();
+        $extraHeaders[$accessTokenHeader] = $accessToken;
+
+        if (is_array($data)) {
+            $dataType = Http::DATA_TYPE_JSON;
+            $data = json_encode($data);
+        } else {
+            $dataType = Http::DATA_TYPE_GRAPHQL;
+        }
+        $this->client = new Http($this->session->getShop());
+        return $this->client->post(
+            $this->getApiPath(),
+            $data,
+            $extraHeaders,
+            $query,
+            $tries,
+            $dataType,
+        );
+    }
+
+    /**
+     * Proxy string query to this client's domain.
+     *
+     * @param string   $data         Query to be posted to endpoint
+     * @param array    $extraHeaders Any extra headers to send along with the request
+     * @param int|null $tries        How many times to attempt the request
+     *
+     * @return \ShopifyConnector\App\Classes\Clients\HttpResponse
+     * @throws \Psr\Http\Client\ClientExceptionInterface
+     * @throws \ShopifyConnector\App\Classes\Exception\MissingArgumentException
+     * @throws \ShopifyConnector\App\Classes\Exception\UninitializedContextException
+     */
+    public function proxy(
+        string $data,
+        array $extraHeaders = [],
+        ?int $tries = null
+    ): HttpResponse {
+        if (empty($data)) {
+            throw new MissingArgumentException('Query missing');
+        }
+
+        list($accessTokenHeader, $accessToken) = $this->getAccessTokenHeader();
+        $extraHeaders[$accessTokenHeader] = $accessToken;
+        $this->client = new Http($this->session->getShop());
+        return $this->client->post(
+            $this->getApiPath(),
+            $data,
+            $extraHeaders,
+            [],
+            $tries,
+            Http::DATA_TYPE_JSON,
+        );
+    }
+
+    /**
+     * Fetches the URL path to be used for API requests.
+     *
+     * @return string
+     */
+    protected function getApiPath(): string
+    {
+        return 'admin/api/' . Context::$API_VERSION . '/graphql.json';
+    }
+
+    /**
+     * Fetches the access token header and value to be used for API requests.
+     *
+     * @return array [$accessTokenHeader, $accessToken]
+     */
+    protected function getAccessTokenHeader(): array
+    {
+        $accessToken = Context::$IS_PRIVATE_APP ? Context::$API_SECRET_KEY : $this->session->getAccessToken();
+        return [HttpHeaders::X_SHOPIFY_ACCESS_TOKEN, $accessToken];
     }
 
 }
