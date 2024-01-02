@@ -20,7 +20,7 @@ class FileSessionStorage implements SessionStorage
     public function __construct(string $path = '/tmp/shopify_api_sessions')
     {
         if (!is_dir($path)) {
-            mkdir($path);
+            mkdir($path, 0777, true);
         }
 
         $this->path = $path;
