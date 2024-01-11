@@ -24,10 +24,13 @@ class CollectService extends BaseService
         parent::__construct($channel_id);
     }
 
-    public function getAll(callable $callback , $data = []): void {
+    public function getAll(callable $callback , $params = []): void {
             $pageInfo = null;
             do {
-                $collections = $this->collect::all($this->collect->session,[],['limit' => isset($data['limit']) ? $data['limit'] : 250,'page_info' => $pageInfo]);
+                if($pageInfo != null){
+                    $params = array_merge($params,["page_info" => $pageInfo]);
+                }
+                $collections = $this->collect::all($this->collect->session,[],$params);
                 $callback($collections);
                 $pageInfo = isset( $this->collect::$NEXT_PAGE_QUERY['page_info']) ? $this->collect::$NEXT_PAGE_QUERY['page_info'] : null;
 

@@ -24,10 +24,13 @@ class ProductService extends BaseService
         parent::__construct($channel_id);
     }
 
-    public function getAll(callable $callback , $data = []) {
+    public function getAll(callable $callback , $params = []) {
         $pageInfo = null;
         do {
-            $products = $this->product::all($this->product->session,[],['limit' => isset($data['limit']) ? $data['limit'] : 250,'page_info' => $pageInfo]);
+            if($pageInfo != null){
+                $params = array_merge($params,["page_info" => $pageInfo]);
+            }
+            $products = $this->product::all($this->product->session,[],$params);
             $callback($products);
             $pageInfo = isset( $this->product::$NEXT_PAGE_QUERY['page_info']) ? $this->product::$NEXT_PAGE_QUERY['page_info'] : null;
 

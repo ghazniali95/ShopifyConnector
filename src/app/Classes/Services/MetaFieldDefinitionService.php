@@ -24,19 +24,19 @@ class MetaFieldDefinitionService extends BaseService
         ]);
         parent::__construct($channel_id);
     }
- 
-    public function getAll($data = [])
-    { 
-            $response = $this->metaField->query(["query" => $this->getQuery(isset($data['limit']) ? $data['limit'] : 250, isset($data['ownerType']) ? $data['ownerType'] : 'PRODUCT')]);
-            return $response->getDecodedBody(); 
+
+    public function getAll($params = [])
+    {
+            $response = $this->metaField->query(["query" => $this->getQuery($params)]);
+            return $response->getDecodedBody();
     }
 
-    private function getQuery($limit = 250, $type = 'PRODUCT'): string
+    private function getQuery($params): string
     {
-        $type = strtoupper($type);
+        $type = strtoupper($params['ownerType']);
         return  <<<QUERY
                 query {
-                    metafieldDefinitions(first: {$limit}, ownerType: {$type}) {
+                    metafieldDefinitions(first: {$params['limit']}, ownerType: {$type}) {
                     edges {
                         node {
                             id
