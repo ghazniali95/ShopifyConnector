@@ -5,7 +5,7 @@
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "Ghazniali95\\ShopifyConnector\\": "src"
+            "Ghazniali95\\ShopifyConnector\\": "src/"
         }
     },
     "keywords": [
@@ -32,10 +32,10 @@
                 "Ghazniali95\\ShopifyConnector\\App\\Providers\\ShopifyConnectorProvider"
             ],
             "aliases": {
-                "Calculator": "Ghazniali95\\ShopifyConnector\\App\\Facades\\ShopifyService"
+                "ShopifyService": "Ghazniali95\\ShopifyConnector\\App\\Facades\\ShopifyService"
             }
         }
-    },
+    }, 
     "require": {
         "php": "~8.0.0 || ~8.1.0 || ~8.2.0",
         "phpunit/phpunit": "^9.0",
