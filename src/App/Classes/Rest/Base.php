@@ -205,6 +205,7 @@ abstract class Base extends ShopifyConnector
                 $response = $client->get(
                     path: $path,
                     query: $params,
+                    tries: 2,
                 );
                 break;
             case "post":
@@ -212,6 +213,7 @@ abstract class Base extends ShopifyConnector
                     path: $path,
                     body: $body,
                     query: $params,
+                    tries: 2,
                 );
                 break;
             case "put":
@@ -219,12 +221,14 @@ abstract class Base extends ShopifyConnector
                     path: $path,
                     body: $body,
                     query: $params,
+                    tries: 2,
                 );
                 break;
             case "delete":
                 $response = $client->delete(
                     path: $path,
                     query: $params,
+                    tries: 2,
                 );
                 break;
         }

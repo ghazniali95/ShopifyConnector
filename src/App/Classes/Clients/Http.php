@@ -167,7 +167,7 @@ class Http
         ?int $tries = null,
         string $dataType = self::DATA_TYPE_JSON
     ) {
-        $maxTries = $tries ?? 1;
+        $maxTries = $tries ?? 2;
 
         $version = require dirname(__FILE__) . '/../version.php';
         $userAgentParts = ["Shopify Admin API Library for PHP v$version"];
@@ -215,9 +215,7 @@ class Http
             $response = HttpResponse::fromResponse($client->sendRequest($request));
 
             if (in_array($response->getStatusCode(), self::RETRIABLE_STATUS_CODES)) {
-                $retryAfter = $response->hasHeader(HttpHeaders::RETRY_AFTER)
-                    ? $response->getHeaderLine(HttpHeaders::RETRY_AFTER)
-                    : Context::$RETRY_TIME_IN_SECONDS;
+                $retryAfter = Context::$RETRY_TIME_IN_SECONDS;
 
                 usleep((int)($retryAfter * 1000000));
             } else {
