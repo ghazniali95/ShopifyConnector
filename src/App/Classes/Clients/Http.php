@@ -283,7 +283,8 @@ class Http
             $result = false;
         } else {
             $result = true;
-            file_put_contents($warningFilePath, time());
+            // file_put_contents($warningFilePath, time());
+            Log::error([$warningFilePath]);
         }
 
         return $result;
