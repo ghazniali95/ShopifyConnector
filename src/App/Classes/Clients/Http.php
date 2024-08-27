@@ -8,6 +8,7 @@ use Exception;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Uri;
 use GuzzleHttp\Psr7\Utils;
+use Illuminate\Support\Facades\Log;
 use Ghazniali95\ShopifyConnector\App\Classes\Context;
 
 class Http
